@@ -2,15 +2,12 @@
 대원샵, 소프라노몰 출석체크하기 귀찮아서 만들었음
 
 쓸사람 없겠지만 쓰려면 auto_login 디렉토리에 .env 파일 만들고
-
-SLACK_BOT_OAUTH_TOKEN="슬랙OAUTH키"
-
-SLACK_CHANNEL="#푸쉬받을슬랙채널명"
-
-ID="아이디"
-
-PW="비번"
-
+   
+SLACK_BOT_OAUTH_TOKEN="슬랙OAUTH키"   
+SLACK_CHANNEL="#푸쉬받을슬랙채널명"   
+ID="아이디"   
+PW="비번"   
+   
 써놓고 저장.
 
 슬랙으로 푸쉬 안받고싶거나 대원샵/소프라노몰 아이디 비번이 다르면 알아서 뜯어고쳐 써야됨
