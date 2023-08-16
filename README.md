@@ -4,8 +4,11 @@
 쓸사람 없겠지만 쓰려면 auto_login 디렉토리에 .env 파일 만들고
 
 SLACK_BOT_OAUTH_TOKEN="슬랙OAUTH키"
+
 SLACK_CHANNEL="#푸쉬받을슬랙채널명"
+
 ID="아이디"
+
 PW="비번"
 
 써놓고 저장.
