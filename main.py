@@ -1,3 +1,5 @@
+#!/Users/bsho88_office/project/no_java_project/py_test/auto_login/.venv/bin/python
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import daewon_attendance
