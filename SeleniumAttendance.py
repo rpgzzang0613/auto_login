@@ -8,7 +8,6 @@ from selenium.webdriver.support import expected_conditions as ec
 from PIL import Image
 import pytesseract
 import io
-import time
 import util
 
 class SeleniumAttendance:
