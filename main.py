@@ -4,6 +4,7 @@ from SeleniumAttendance import SeleniumAttendance
 import util
 import dotenv
 import os
+import traceback
 
 try:
     print("- - 시작 - -")
@@ -38,6 +39,7 @@ try:
         msg_for_slack += "소프라노 실패\n"
     
     util.send_slack_msg(msg_for_slack)
-except Exception as e:
-    print("예외 발생", e)
-    util.send_slack_msg(str(e))
+except Exception:
+    print("예외 발생")
+    trace_str = traceback.format_exc()
+    util.send_slack_msg(str(trace_str))
