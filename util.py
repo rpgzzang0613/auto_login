@@ -6,6 +6,9 @@ def send_slack_msg(msg):
     oauth_token = os.getenv("SLACK_BOT_OAUTH_TOKEN")
     channel = os.getenv("SLACK_CHANNEL")
     
+    if not oauth_token or not channel:
+        return
+    
     client = WebClient(oauth_token)
     response = client.chat_postMessage(channel = channel, text = msg)
     
