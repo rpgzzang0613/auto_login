@@ -49,7 +49,7 @@ def try_captcha(driver: WebDriver):
         msg += "추출이 쉬운 이미지로 가공 완료\n"
         
         pytesseract.pytesseract.tesseract_cmd = "/opt/homebrew/bin/tesseract"
-        captcha_str = pytesseract.image_to_string(new_img)
+        captcha_str = pytesseract.image_to_string(new_img, lang="eng")
         print("문자열 추출 :", captcha_str)
         msg += "문자열 추출 : " + captcha_str + "\n"
         
