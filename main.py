@@ -11,18 +11,12 @@ try:
 
     dotenv.load_dotenv()
     
-    id = os.getenv("DAEWON_ID")
-    pw = os.getenv("DAEWON_PW")
-    
     sa = SeleniumAttendance()
     
-    daewon_res_dict = sa.go_daewon(id, pw)
+    daewon_res_dict = sa.go_daewon(os.getenv("DAEWON_ID"), os.getenv("DAEWON_PW"))
     msg_for_slack += daewon_res_dict["msg_for_return"]
     
-    id = os.getenv("SOFRANO_ID")
-    pw = os.getenv("SOFRANO_PW")
-    
-    sofrano_res_dict = sa.go_sofrano(id, pw)
+    sofrano_res_dict = sa.go_sofrano(os.getenv("SOFRANO_ID"), os.getenv("SOFRANO_PW"))
     msg_for_slack += sofrano_res_dict["msg_for_return"]
     
     sa.quit_driver()

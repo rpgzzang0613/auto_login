@@ -24,7 +24,7 @@ class SeleniumAttendance:
         
         self.wait_1s = WebDriverWait(self.driver, timeout=1, poll_frequency=0.2)
         self.wait_3s = WebDriverWait(self.driver, timeout=3, poll_frequency=0.2)
-        self.wait_5s = WebDriverWait(self.driver, timeout=3, poll_frequency=0.2)
+        self.wait_5s = WebDriverWait(self.driver, timeout=5, poll_frequency=0.2)
         
         self.driver.implicitly_wait(10)
         
@@ -69,12 +69,11 @@ class SeleniumAttendance:
             
             driver_.switch_to.window(root_handle)
 
-        driver_.find_element(By.CSS_SELECTOR, "a.attendcheck").click()
+        driver_.get("https://www.daewonshop.com/cs/attend")
         print("대원샵 출석체크 페이지 진입")
         msg_for_return += "대원샵 출석체크 페이지 진입\n"
 
-        btn_check = driver_.find_element(By.CSS_SELECTOR, ".attendance-check-btn")
-        btn_check.click()
+        driver_.find_element(By.CSS_SELECTOR, ".attendance-check-btn").click()
         
         result_content = driver_.find_element(By.CSS_SELECTOR, "section.dpromotion-modal-content")
         
@@ -94,7 +93,9 @@ class SeleniumAttendance:
         return {"succeed": succeed, "msg_for_return": msg_for_return}
         
         
-    def __try_captcha(driver_: WebDriver):
+    def __try_captcha(self):
+        driver_ = self.driver
+        
         msg = ""
         succeed = False
         
@@ -176,7 +177,7 @@ class SeleniumAttendance:
         print("소프라노몰 로그인 완료")
         msg_for_return += "소프라노몰 로그인 완료\n"
         
-        res_dict = self.__try_captcha(driver_)
+        res_dict = self.__try_captcha()
         msg_for_return += res_dict["msg"]
         
         return {"succeed": res_dict["succeed"], "msg_for_return": msg_for_return}
