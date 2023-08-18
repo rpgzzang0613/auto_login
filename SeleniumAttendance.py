@@ -1,5 +1,5 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.webdriver import WebDriver
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -20,10 +20,6 @@ class SeleniumAttendance:
         # options.add_argument("--disable-blink-features=AutomationControlled")
 
         self.driver = webdriver.Chrome(options=options)
-        
-        self.wait_1s = WebDriverWait(self.driver, timeout=1, poll_frequency=0.2)
-        self.wait_3s = WebDriverWait(self.driver, timeout=3, poll_frequency=0.2)
-        self.wait_5s = WebDriverWait(self.driver, timeout=5, poll_frequency=0.2)
         
         self.driver.implicitly_wait(10)
         
@@ -132,32 +128,30 @@ class SeleniumAttendance:
             msg += "추출이 쉬운 이미지로 가공 완료\n"
             
             pytesseract.pytesseract.tesseract_cmd = "/opt/homebrew/bin/tesseract"
-            captcha_str = pytesseract.image_to_string(new_img, lang="eng")
+            
+            # 개행문자 제거.. 왜 개행문자가 들어가는지 아직도 모름
+            captcha_str = pytesseract.image_to_string(new_img, lang="eng").replace("\n", "")
+            
             print("문자열 추출 :", captcha_str)
             msg += "문자열 추출 : " + captcha_str + "\n"
             
+            # 사실 개행문자 안뺸채로 클릭을 없애도 되긴 함
             secure_input.send_keys(captcha_str)
             
+            driver_.find_elements(By.CSS_SELECTOR, ".attendSecurityLayer .btnArea a")[0].click()
+            print("출석체크 버튼 클릭")
+            msg += "출석체크 버튼 클릭\n"
+        
+            driver_.switch_to.alert.accept()
+            
             try:
-                driver_.find_element(By.CSS_SELECTOR, ".attendSecurityLayer .btnArea a")[0].click()
-            except Exception:
-                print("왜 UnexpectedAlert이 뜨는지 모르겠지만 예외로 빠짐")
-                print("출석체크 버튼 클릭")
-                msg += "출석체크 버튼 클릭\n"
+                after_btn = driver_.find_element(By.CSS_SELECTOR, "#attendWriteForm span.gRight a")
+            except NoSuchElementException:
+                after_btn = None
                 
-                try:
-                    driver_.switch_to.alert.accept()
-                except Exception:
-                    print("마찬가지로 왜 NoSuchAlert이 뜨는지 모르겠지만 예외로 빠짐")
-                
-                try:
-                    after_btn = driver_.find_element(By.CSS_SELECTOR, "#attendWriteForm span.gRight a")
-                except NoSuchElementException:
-                    after_btn = None
-                
-                if after_btn is None:
-                    succeed = True
-                    break
+            if after_btn is None:
+                succeed = True
+                break
         
         return {"succeed": succeed, "msg": msg}
     
