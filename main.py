@@ -1,9 +1,6 @@
 #!/Users/bsho88_office/project/no_java_project/py_test/auto_login/.venv/bin/python
 
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-import daewon_attendance
-import sofrano_attendance
+from SeleniumAttendance import SeleniumAttendance
 import util
 import dotenv
 import os
@@ -17,24 +14,19 @@ try:
     id = os.getenv("DAEWON_ID")
     pw = os.getenv("DAEWON_PW")
     
-    options = Options()
-    options.add_argument("--start-maximized")
-    options.add_argument("--headless=new")
-    # options.add_experimental_option("detach", True)
-    # options.add_argument("--disable-blink-features=AutomationControlled")
-
-    driver = webdriver.Chrome(options=options)
+    sa = SeleniumAttendance()
     
-    daewon_res_dict = daewon_attendance.go_attendance(id, pw, driver)
+    daewon_res_dict = sa.go_daewon(id, pw)
     msg_for_slack += daewon_res_dict["msg_for_return"]
     
     id = os.getenv("SOFRANO_ID")
     pw = os.getenv("SOFRANO_PW")
     
-    sofrano_res_dict = sofrano_attendance.go_attendance(id, pw, driver)
+    sofrano_res_dict = sa.go_sofrano(id, pw)
     msg_for_slack += sofrano_res_dict["msg_for_return"]
     
-    driver.quit()
+    sa.quit_driver()
+    
     print("- - 완료 - -")
     msg_for_slack += "- - 완료 - -\n"
     
