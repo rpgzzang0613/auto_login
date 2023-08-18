@@ -14,7 +14,7 @@ def try_captcha(driver: WebDriver):
     
     for i in range(10):
         print(str(i+1) + "번째 시도..")
-        msg += str(i+1) + "번째 시도.."
+        msg += str(i+1) + "번째 시도..\n"
         
         time.sleep(2)
         
@@ -48,6 +48,7 @@ def try_captcha(driver: WebDriver):
         print("추출이 쉬운 이미지로 가공 완료")
         msg += "추출이 쉬운 이미지로 가공 완료\n"
         
+        pytesseract.pytesseract.tesseract_cmd = "/opt/homebrew/bin/tesseract"
         captcha_str = pytesseract.image_to_string(new_img)
         print("문자열 추출 :", captcha_str)
         msg += "문자열 추출 : " + captcha_str + "\n"
