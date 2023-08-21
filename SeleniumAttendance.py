@@ -132,14 +132,18 @@ class SeleniumAttendance:
             print("문자열 추출 :", captcha_str)
             msg += "문자열 추출 : " + captcha_str + "\n"
             
-            # 사실 개행문자 안뺸채로 클릭을 없애도 되긴 함
+            # 사실 개행문자 안뺀채로 클릭을 없애도 되긴 함
             secure_input.send_keys(captcha_str)
             
             driver_.find_elements(By.CSS_SELECTOR, ".attendSecurityLayer .btnArea a")[0].click()
             print("출석체크 버튼 클릭")
             msg += "출석체크 버튼 클릭\n"
-        
-            driver_.switch_to.alert.accept()
+
+            alert_window = driver_.switch_to.alert
+            print("소프라노몰 출석체크 결과 :", alert_window.text)
+            msg += "소프라노몰 출석체크 결과 :" + alert_window.text
+            
+            alert_window.accept()
             
             try:
                 after_btn = driver_.find_element(By.CSS_SELECTOR, "#attendWriteForm span.gRight a")
