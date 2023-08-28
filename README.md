@@ -1,15 +1,32 @@
-# auto_login
-대원샵, 소프라노몰 출석체크하기 귀찮아서 만들었음   
+# auto_login (대원샵, 소프라노몰 출석체크)
    
-쓸사람 없겠지만 쓰려면 auto_login 디렉토리에 .env 파일 만들고   
+1. 파이썬 설치
+2. 가상환경 세팅
+    ```
+    # 터미널에서 프로젝트 디렉토리로 이동
+    cd 경로/auto_login
+
+    # venv 가상환경 생성
+    python -m venv .venv
+
+    # 생성한 가상환경 활성화
+    source .venv/bin/activate
+    
+    # 필요 라이브러리 설치
+    pip install -r requirements.txt
+    ```
+3. auto_login 디렉토리에 ".env" 파일 만들고   
+    ```
+    SLACK_BOT_OAUTH_TOKEN="슬랙OAUTH키"   
+    SLACK_CHANNEL="#푸쉬받을슬랙채널명"   
+    DAEWON_ID="아이디"   
+    DAEWON_PW="비번"   
+    SOFRANO_ID="아이디"   
+    SOFRANO_PW="비번"   
+    ```
+    써놓고 저장. SLACK 관련사항은 선택사항이므로 없으면 ""로 써놓거나 아예 항목을 없애면 됨   
    
-SLACK_BOT_OAUTH_TOKEN="슬랙OAUTH키"   
-SLACK_CHANNEL="#푸쉬받을슬랙채널명"   
-DAEWON_ID="아이디"   
-DAEWON_PW="비번"   
-SOFRANO_ID="아이디"   
-SOFRANO_PW="비번"   
-   
-써놓고 저장.   
-   
-슬랙 관련된건 선택사항이므로 없으면 "" 쓰든지 아예 빼든지 하면 됨
+4. 터미널에서 main.py 실행
+    ```
+    python main.py
+    ```
