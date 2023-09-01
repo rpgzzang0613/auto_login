@@ -39,7 +39,15 @@ try:
         msg_for_slack += "소프라노 실패\n"
     
     util.send_slack_msg(msg_for_slack)
-except Exception:
-    print("예외 발생")
+except Exception as e:
+    print("예외 발생:", str(e))
     trace_str = traceback.format_exc()
-    util.send_slack_msg(str(trace_str))
+    
+    # 로그에 예외 정보 및 작업 진행 상황 출력
+    log_msg = f"예외 발생: {str(e)}\n"
+    log_msg += f"진행 상황:\n{msg_for_slack}\n"
+    log_msg += f"Traceback:\n{trace_str}"
+    print(log_msg)
+    
+    # Slack에 예외 정보 및 작업 진행 상황 전송
+    util.send_slack_msg(log_msg)
