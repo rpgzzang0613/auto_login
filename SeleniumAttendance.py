@@ -66,13 +66,20 @@ class SeleniumAttendance:
         msg_for_return += "대원샵 출석체크 페이지 진입\n"
 
         driver_.find_element(By.CSS_SELECTOR, ".attendance-check-btn").click()
-        
-        result_content = driver_.find_element(By.CSS_SELECTOR, "section.dpromotion-modal-content")
-        
+
+        modal_content = driver_.find_element(By.CSS_SELECTOR, "section.dpromotion-modal-content")
+
+        if modal_content.find_elements(By.CSS_SELECTOR, "form"):
+            # form이 있으면 동의 체크 후 클릭하고 변경된 모달로 재할당
+            modal_content = driver_.find_element(By.CSS_SELECTOR, "section.dpromotion-modal-content")
+            modal_content.find_element(By.CSS_SELECTOR, ".dpromotion-agreement__item-title").click()
+            modal_content.find_element(By.CSS_SELECTOR, ".dpromotion-modal__button.confirm").click()
+            modal_content = driver_.find_element(By.CSS_SELECTOR, "section.dpromotion-modal-content")
+
         try:
-            result_msg = result_content.find_element(By.CSS_SELECTOR, ".dpromotion-alert__message").text
+            result_msg = modal_content.find_element(By.CSS_SELECTOR, ".dpromotion-alert__message").text
         except NoSuchElementException:
-            result_msg = result_content.text
+            result_msg = modal_content.text
         
         print("대원샵 출석체크 결과 :", result_msg)
         msg_for_return += "대원샵 출석체크 결과 : " + result_msg + "\n"
