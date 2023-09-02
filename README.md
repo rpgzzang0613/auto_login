@@ -3,7 +3,9 @@
 1. 파이썬 설치
 2. 가상환경 세팅
     ```
-    # 터미널에서 프로젝트 디렉토리로 이동
+    # MacOS 기준
+
+	# 터미널에서 프로젝트 디렉토리로 이동
     cd 경로/auto_login
 
     # venv 가상환경 생성
@@ -11,6 +13,21 @@
 
     # 생성한 가상환경 활성화
     source .venv/bin/activate
+    
+    # 필요 라이브러리 설치
+    pip install -r requirements.txt
+    ```
+	```
+    # Windows CMD 기준 (파워쉘 아님)
+	
+	# 터미널에서 프로젝트 디렉토리로 이동
+    cd 경로\auto_login
+
+    # venv 가상환경 생성
+    python -m venv .venv
+
+    # 생성한 가상환경 활성화
+    .venv\Scripts\activate
     
     # 필요 라이브러리 설치
     pip install -r requirements.txt
