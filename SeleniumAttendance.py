@@ -69,7 +69,12 @@ class SeleniumAttendance:
 
         modal_content = driver_.find_element(By.CSS_SELECTOR, "section.dpromotion-modal-content")
 
-        if modal_content.find_elements(By.CSS_SELECTOR, "form"):
+        try:
+            modal_form = modal_content.find_element(By.CSS_SELECTOR, "form")
+        except NoSuchElementException:
+            modal_form = None
+
+        if modal_form is not None:
             # form이 있으면 동의 체크 후 클릭하고 변경된 모달로 재할당
             modal_content = driver_.find_element(By.CSS_SELECTOR, "section.dpromotion-modal-content")
             modal_content.find_element(By.CSS_SELECTOR, ".dpromotion-agreement__item-title").click()
