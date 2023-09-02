@@ -5,6 +5,7 @@ from selenium.common.exceptions import NoSuchElementException
 from PIL import Image
 import pytesseract
 import io
+import platform
 import util
 
 class SeleniumAttendance:
@@ -137,7 +138,10 @@ class SeleniumAttendance:
             print("추출이 쉬운 이미지로 가공 완료")
             msg += "추출이 쉬운 이미지로 가공 완료\n"
             
-            pytesseract.pytesseract.tesseract_cmd = "/opt/homebrew/bin/tesseract"
+            if platform.system() == "Darwin":
+                pytesseract.pytesseract.tesseract_cmd = "/opt/homebrew/bin/tesseract"
+            elif platform.system() == "Windows":
+                pytesseract.pytesseract.tesseract_cmd = "C:/Program Files/Tesseract-OCR/tesseract"
             
             # 개행문자 제거.. 왜 개행문자가 들어가는지 아직도 모름
             captcha_str = pytesseract.image_to_string(new_img, lang="eng").replace("\n", "")
@@ -145,9 +149,9 @@ class SeleniumAttendance:
             print("문자열 추출 :", captcha_str)
             msg += "문자열 추출 : " + captcha_str + "\n"
             
-            # 사실 개행문자 안뺀채로 클릭을 없애도 되긴 함
             secure_input.send_keys(captcha_str)
             
+            # 사실 개행문자 안뺀채로 클릭을 없애도 되긴 함
             driver_.find_elements(By.CSS_SELECTOR, ".attendSecurityLayer .btnArea a")[0].click()
             print("출석체크 버튼 클릭")
             msg += "출석체크 버튼 클릭\n"
