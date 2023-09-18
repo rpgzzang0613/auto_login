@@ -157,8 +157,8 @@ class SeleniumAttendance:
             msg += "출석체크 버튼 클릭\n"
 
             alert_window = driver_.switch_to.alert
-            print("소프라노몰 출석체크 결과 :", alert_window.text)
-            msg += "소프라노몰 출석체크 결과 :" + alert_window.text + "\n"
+            print("소프라노몰 출석체크 결과 : ", alert_window.text)
+            msg += "소프라노몰 출석체크 결과 : " + alert_window.text + "\n"
             
             alert_window.accept()
             
