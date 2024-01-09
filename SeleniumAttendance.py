@@ -144,7 +144,7 @@ class SeleniumAttendance:
                 pytesseract.pytesseract.tesseract_cmd = "C:/Program Files/Tesseract-OCR/tesseract"
             
             # 개행문자 제거.. 왜 개행문자가 들어가는지 아직도 모름
-            captcha_str = pytesseract.image_to_string(new_img, lang="eng").replace("\n", "")
+            captcha_str = pytesseract.image_to_string(image=new_img, lang="eng").replace("\n", "")
             
             print("문자열 추출 :", captcha_str)
             msg += "문자열 추출 : " + captcha_str + "\n"
