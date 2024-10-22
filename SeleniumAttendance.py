@@ -1,7 +1,11 @@
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoAlertPresentException
+from selenium.common.exceptions import TimeoutException
 from PIL import Image
 import pytesseract
 import io
@@ -105,7 +109,7 @@ class SeleniumAttendance:
         msg = ""
         succeed = False
         
-        for i in range(10):
+        for i in range(15):
             print(str(i+1) + "번째 시도..")
             msg += str(i+1) + "번째 시도..\n"
             
@@ -156,7 +160,26 @@ class SeleniumAttendance:
             print("출석체크 버튼 클릭")
             msg += "출석체크 버튼 클릭\n"
 
-            alert_window = driver_.switch_to.alert
+            try:
+                alert_window = driver_.switch_to.alert
+            except NoAlertPresentException:
+                print("얼럿 창 못찾아서 두번째 시도..")
+                msg += "얼럿 창 못찾아서 두번째 시도..\n"
+                try:
+                    WebDriverWait(driver_, 10).until(EC.alert_is_present())
+                    alert_window = driver_.switch_to.alert
+                except NoAlertPresentException:
+                    alert_window = None
+                    print("얼럿 창 찾기 두번째 시도까지 실패")
+                    msg += "얼럿 창 찾기 두번째 시도까지 실패"
+                except TimeoutException:
+                    print("얼럿 창 찾기 두번째 시도 시간 초과")
+                    msg += "얼럿 창 찾기 두번째 시도 시간 초과"
+
+            if alert_window is None:
+                succeed = False
+                return {"succeed": succeed, "msg": msg}
+
             print("소프라노몰 출석체크 결과 : ", alert_window.text)
             msg += "소프라노몰 출석체크 결과 : " + alert_window.text + "\n"
             
