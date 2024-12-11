@@ -73,7 +73,7 @@ class SeleniumAttendance:
 
         driver_.find_element(By.CSS_SELECTOR, ".attendance-check-btn").click()
 
-        modal_content = driver_.find_element(By.CSS_SELECTOR, "section.dpromotion-modal-content")
+        modal_content = WebDriverWait(driver_, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "section.dpromotion-modal-content")))
 
         try:
             modal_form = modal_content.find_element(By.CSS_SELECTOR, "form")
@@ -146,6 +146,8 @@ class SeleniumAttendance:
                 pytesseract.pytesseract.tesseract_cmd = "/opt/homebrew/bin/tesseract"
             elif platform.system() == "Windows":
                 pytesseract.pytesseract.tesseract_cmd = "C:/Program Files/Tesseract-OCR/tesseract"
+            elif platform.system() == "Linux":
+                pytesseract.pytesseract.tesseract_cmd = "/usr/bin/tesseract"
             
             # 개행문자 제거.. 왜 개행문자가 들어가는지 아직도 모름
             captcha_str = pytesseract.image_to_string(image=new_img, lang="eng").replace("\n", "")
@@ -166,8 +168,7 @@ class SeleniumAttendance:
                 print("얼럿 창 못찾아서 두번째 시도..")
                 msg += "얼럿 창 못찾아서 두번째 시도..\n"
                 try:
-                    WebDriverWait(driver_, 10).until(EC.alert_is_present())
-                    alert_window = driver_.switch_to.alert
+                    alert_window = WebDriverWait(driver_, 10).until(EC.alert_is_present())
                 except NoAlertPresentException:
                     alert_window = None
                     print("얼럿 창 찾기 두번째 시도까지 실패")
