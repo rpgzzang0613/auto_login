@@ -1,7 +1,9 @@
 name: Run Auto Login Daily
 on:
   schedule:
-    - cron: '5 23 * * *' # UTC 23:05 -> KST 08:05 (next day)
+    - cron: "5 23 * * *" # UTC 23:05 -> KST 08:05 (next day)
+  workflow_dispatch:
+  
 jobs:
   run-script:
     runs-on: ubuntu-latest
@@ -10,7 +12,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12.1'
+          python-version: "3.12.1"
       - name: Create .env file
         env:
           SLACK_BOT_OAUTH_TOKEN: ${{secrets.SLACK_BOT_OAUTH_TOKEN}}
