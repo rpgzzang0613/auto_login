@@ -71,7 +71,20 @@ class SeleniumAttendance:
         print("대원샵 출석체크 페이지 진입")
         msg_for_return += "대원샵 출석체크 페이지 진입\n"
 
-        driver_.find_element(By.CSS_SELECTOR, ".attendance-check-btn").click()
+        dw_check_btn = WebDriverWait(driver_, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".attendance-check-btn")))
+
+        try:
+            dw_check_btn.click()
+            print("대원샵 출석체크 버튼 찾아서 클릭")
+            msg_for_return += "대원샵 출석체크 버튼 찾아서 클릭"
+        except NoSuchElementException:
+            dw_check_btn = None
+            print("대원샵 출석체크 버튼 찾기 실패")
+            msg_for_return += "대원샵 출석체크 버튼 찾기 실패"
+
+        if dw_check_btn is None:
+            succeed = False
+            return {"succeed": succeed, "msg_for_return": msg_for_return}
 
         modal_content = WebDriverWait(driver_, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, "section.dpromotion-modal-content")))
 
