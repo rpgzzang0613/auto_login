@@ -71,16 +71,20 @@ class SeleniumAttendance:
         print("대원샵 출석체크 페이지 진입")
         msg_for_return += "대원샵 출석체크 페이지 진입\n"
 
-        dw_check_btn = WebDriverWait(driver_, 10).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".attendance-check-btn")))
+        dw_check_btn = WebDriverWait(driver_, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".attendance-check-btn")))
 
         try:
             dw_check_btn.click()
             print("대원샵 출석체크 버튼 찾아서 클릭")
-            msg_for_return += "대원샵 출석체크 버튼 찾아서 클릭"
+            msg_for_return += "대원샵 출석체크 버튼 찾아서 클릭\n"
         except NoSuchElementException:
             dw_check_btn = None
-            print("대원샵 출석체크 버튼 찾기 실패")
-            msg_for_return += "대원샵 출석체크 버튼 찾기 실패"
+            print("대원샵 출석체크 버튼 찾기 실패 (NoSuchElementException)")
+            msg_for_return += "대원샵 출석체크 버튼 찾기 실패 (NoSuchElementException)\n"
+        except TimeoutException:
+            dw_check_btn = None
+            print("대원샵 출석체크 버튼 찾기 실패 (TimeoutException)")
+            msg_for_return += "대원샵 출석체크 버튼 찾기 실패 (TimeoutException)\n"
 
         if dw_check_btn is None:
             succeed = False
@@ -91,6 +95,8 @@ class SeleniumAttendance:
         try:
             modal_form = modal_content.find_element(By.CSS_SELECTOR, "form")
         except NoSuchElementException:
+            modal_form = None
+        except TimeoutException:
             modal_form = None
 
         if modal_form is not None:
