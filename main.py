@@ -7,7 +7,7 @@ import os
 import traceback
 
 try:
-    print("- - 시작 - -")
+    print("- - 시작 - -", flush=True)
     msg_for_slack = "- - 시작 - -\n"
 
     dotenv.load_dotenv()
@@ -22,11 +22,11 @@ try:
     
     sa.quit_driver()
     
-    print("- - 완료 - -")
+    print("- - 완료 - -", flush=True)
     msg_for_slack += "- - 완료 - -\n"
     
     msg_for_slack += "결과 : "
-    print(daewon_res_dict["succeed"], sofrano_res_dict["succeed"])
+    print(daewon_res_dict["succeed"], sofrano_res_dict["succeed"], flush=True)
     
     if daewon_res_dict["succeed"]:
         msg_for_slack += "대원 성공, "
@@ -40,14 +40,14 @@ try:
     
     util.send_slack_msg(msg_for_slack)
 except Exception as e:
-    print("예외 발생:", str(e))
+    print("예외 발생:", str(e), flush=True)
     trace_str = traceback.format_exc()
     
     # 로그에 예외 정보 및 작업 진행 상황 출력
     log_msg = f"예외 발생: {str(e)}\n"
     log_msg += f"진행 상황:\n{msg_for_slack}\n"
     log_msg += f"Traceback:\n{trace_str}"
-    print(log_msg)
+    print(log_msg, flush=True)
     
     # Slack에 예외 정보 및 작업 진행 상황 전송
     util.send_slack_msg(log_msg)

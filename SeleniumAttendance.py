@@ -32,14 +32,14 @@ class SeleniumAttendance:
         driver_ = self.driver
     
         driver_.get("https://www.daewonshop.com")
-        print("- 대원샵 메인 진입 -")
+        print("- 대원샵 메인 진입 -", flush=True)
         msg_for_return = "- 대원샵 메인 진입 -\n"
 
         main_popup = driver_.find_element(By.ID, "main-layer-popup")
 
         if "active" in main_popup.get_attribute("class"):
             main_popup.find_elements(By.CSS_SELECTOR, "a.close")[0].click()
-            print("대원샵 팝업 닫음")
+            print("대원샵 팝업 닫음", flush=True)
             msg_for_return += "대원샵 팝업 닫음\n"
 
         try:
@@ -49,7 +49,7 @@ class SeleniumAttendance:
 
         if login_btn is not None:
             login_btn.click()
-            print("대원샵 로그인창 오픈")
+            print("대원샵 로그인창 오픈", flush=True)
             msg_for_return += "대원샵 로그인창 오픈\n"
             
             root_handle = driver_.current_window_handle
@@ -62,28 +62,27 @@ class SeleniumAttendance:
             driver_.find_element(By.CSS_SELECTOR, "input.id").send_keys(id)
             driver_.find_element(By.CSS_SELECTOR, "input.pw").send_keys(pw)
             driver_.find_element(By.ID, "m-login").click()
-            print("대원샵 로그인 완료")
+            print("대원샵 로그인 완료", flush=True)
             msg_for_return += "대원샵 로그인 완료\n"
             
             driver_.switch_to.window(root_handle)
 
         driver_.get("https://www.daewonshop.com/cs/attend")
-        print("대원샵 출석체크 페이지 진입")
+        print("대원샵 출석체크 페이지 진입", flush=True)
         msg_for_return += "대원샵 출석체크 페이지 진입\n"
 
-        dw_check_btn = WebDriverWait(driver_, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".attendance-check-btn")))
-
         try:
+            dw_check_btn = WebDriverWait(driver_, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".attendance-check-btn")))
             dw_check_btn.click()
-            print("대원샵 출석체크 버튼 찾아서 클릭")
+            print("대원샵 출석체크 버튼 찾아서 클릭", flush=True)
             msg_for_return += "대원샵 출석체크 버튼 찾아서 클릭\n"
         except NoSuchElementException:
             dw_check_btn = None
-            print("대원샵 출석체크 버튼 찾기 실패 (NoSuchElementException)")
+            print("대원샵 출석체크 버튼 찾기 실패 (NoSuchElementException)", flush=True)
             msg_for_return += "대원샵 출석체크 버튼 찾기 실패 (NoSuchElementException)\n"
         except TimeoutException:
             dw_check_btn = None
-            print("대원샵 출석체크 버튼 찾기 실패 (TimeoutException)")
+            print("대원샵 출석체크 버튼 찾기 실패 (TimeoutException)", flush=True)
             msg_for_return += "대원샵 출석체크 버튼 찾기 실패 (TimeoutException)\n"
 
         if dw_check_btn is None:
@@ -111,11 +110,11 @@ class SeleniumAttendance:
         except NoSuchElementException:
             result_msg = modal_content.text
         
-        print("대원샵 출석체크 결과 :", result_msg)
+        print("대원샵 출석체크 결과 :", result_msg, flush=True)
         msg_for_return += "대원샵 출석체크 결과 : " + result_msg + "\n"
         
         driver_.find_element(By.CSS_SELECTOR, "button.dpromotion-modal-close").click()
-        print("- 대원샵 완료 -")
+        print("- 대원샵 완료 -", flush=True)
         msg_for_return += "- 대원샵 완료 -\n"
         succeed = True
         
@@ -129,7 +128,7 @@ class SeleniumAttendance:
         succeed = False
         
         for i in range(15):
-            print(str(i+1) + "번째 시도..")
+            print(str(i+1) + "번째 시도..", flush=True)
             msg += str(i+1) + "번째 시도..\n"
             
             try:
@@ -138,14 +137,14 @@ class SeleniumAttendance:
                 btn = None
             
             if btn is None:
-                print("소프라노몰 이미 출석체크를 해서 버튼이 없음")
+                print("소프라노몰 이미 출석체크를 해서 버튼이 없음", flush=True)
                 msg += "소프라노몰 이미 출석체크를 해서 버튼이 없음\n"
                 succeed = True
                 return {"succeed": succeed, "msg": msg}
             
             btn.click()
             
-            print("Captcha 모달 오픈")
+            print("Captcha 모달 오픈", flush=True)
             msg += "Captcha 모달 오픈\n"
             
             captcha_img = driver_.find_element(By.CSS_SELECTOR, ".attendSecurityLayer p.form img")
@@ -154,11 +153,11 @@ class SeleniumAttendance:
             img_byte = captcha_img.screenshot_as_png
             
             original_img = Image.open(io.BytesIO(img_byte))
-            print("오리지널 이미지 get")
+            print("오리지널 이미지 get", flush=True)
             msg += "오리지널 이미지 get\n"
             
             new_img = util.convert_image(original_img)
-            print("추출이 쉬운 이미지로 가공 완료")
+            print("추출이 쉬운 이미지로 가공 완료", flush=True)
             msg += "추출이 쉬운 이미지로 가공 완료\n"
             
             if platform.system() == "Darwin":
@@ -171,36 +170,36 @@ class SeleniumAttendance:
             # 개행문자 제거.. 왜 개행문자가 들어가는지 아직도 모름
             captcha_str = pytesseract.image_to_string(image=new_img, lang="eng").replace("\n", "")
             
-            print("문자열 추출 :", captcha_str)
+            print("문자열 추출 :", captcha_str, flush=True)
             msg += "문자열 추출 : " + captcha_str + "\n"
             
             secure_input.send_keys(captcha_str)
             
             # 사실 개행문자 안뺀채로 클릭을 없애도 되긴 함
             driver_.find_elements(By.CSS_SELECTOR, ".attendSecurityLayer .btnArea a")[0].click()
-            print("출석체크 버튼 클릭")
+            print("출석체크 버튼 클릭", flush=True)
             msg += "출석체크 버튼 클릭\n"
 
             try:
                 alert_window = driver_.switch_to.alert
             except NoAlertPresentException:
-                print("얼럿 창 못찾아서 두번째 시도..")
+                print("얼럿 창 못찾아서 두번째 시도..", flush=True)
                 msg += "얼럿 창 못찾아서 두번째 시도..\n"
                 try:
                     alert_window = WebDriverWait(driver_, 10).until(EC.alert_is_present())
                 except NoAlertPresentException:
                     alert_window = None
-                    print("얼럿 창 찾기 두번째 시도까지 실패")
+                    print("얼럿 창 찾기 두번째 시도까지 실패", flush=True)
                     msg += "얼럿 창 찾기 두번째 시도까지 실패"
                 except TimeoutException:
-                    print("얼럿 창 찾기 두번째 시도 시간 초과")
+                    print("얼럿 창 찾기 두번째 시도 시간 초과", flush=True)
                     msg += "얼럿 창 찾기 두번째 시도 시간 초과"
 
             if alert_window is None:
                 succeed = False
                 return {"succeed": succeed, "msg": msg}
 
-            print("소프라노몰 출석체크 결과 : ", alert_window.text)
+            print("소프라노몰 출석체크 결과 : ", alert_window.text, flush=True)
             msg += "소프라노몰 출석체크 결과 : " + alert_window.text + "\n"
             
             alert_window.accept()
@@ -220,7 +219,7 @@ class SeleniumAttendance:
         driver_ = self.driver
         
         driver_.get("https://sofrano.com/attend/stamp.html")
-        print("- 소프라노몰 출석체크 페이지 진입 -")
+        print("- 소프라노몰 출석체크 페이지 진입 -", flush=True)
         msg_for_return = "- 소프라노몰 출석체크 페이지 진입 -\n"
         
         driver_.switch_to.alert.accept()
@@ -228,7 +227,7 @@ class SeleniumAttendance:
         driver_.find_element(By.ID, "member_id").send_keys(id)
         driver_.find_element(By.ID, "member_passwd").send_keys(pw)
         driver_.find_element(By.CSS_SELECTOR, "a.loginBtn").click()
-        print("소프라노몰 로그인 완료")
+        print("소프라노몰 로그인 완료", flush=True)
         msg_for_return += "소프라노몰 로그인 완료\n"
         
         res_dict = self.__try_captcha()
