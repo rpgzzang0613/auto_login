@@ -17,7 +17,7 @@ class SeleniumAttendance:
     def __init__(self):
         options = Options()
         options.add_argument("--start-maximized")
-        options.add_argument("--headless=new")
+        # options.add_argument("--headless=new")
         options.add_experimental_option('excludeSwitches', ['enable-logging'])
         # options.add_experimental_option("detach", True)
         # options.add_argument("--disable-blink-features=AutomationControlled")
@@ -72,8 +72,8 @@ class SeleniumAttendance:
         msg_for_return += "대원샵 출석체크 페이지 진입\n"
 
         try:
-            WebDriverWait(driver_, 40).until(lambda driver: driver.execute_script("return document.readyState") == "complete")
-            dw_check_btn = WebDriverWait(driver_, 40).until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".attendance-check-btn")))
+            WebDriverWait(driver_, 20).until(lambda driver: driver.execute_script("return document.readyState") == "complete")
+            dw_check_btn = WebDriverWait(driver_, 20).until(EC.visibility_of_element_located((By.CSS_SELECTOR, ".attendance-check-btn")))
             dw_check_btn.click()
             print("대원샵 출석체크 버튼 찾아서 클릭", flush=True)
             msg_for_return += "대원샵 출석체크 버튼 찾아서 클릭\n"
