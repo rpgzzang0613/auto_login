@@ -39,3 +39,9 @@ jobs:
           sudo apt install -y tesseract-ocr-eng
       - name: Run script with env
         run: python main.py
+      - name: Upload Exception Html as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: page-source-html
+          path: page_source.html
+          if-no-files-found: ignore

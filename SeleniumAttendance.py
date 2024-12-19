@@ -86,7 +86,9 @@ class SeleniumAttendance:
             print("대원샵 출석체크 버튼 찾기 실패 (TimeoutException)", flush=True)
             msg_for_return += "대원샵 출석체크 버튼 찾기 실패 (TimeoutException)\n"
             page_html = driver_.page_source
-            msg_for_return += f"HTML 페이지 소스\n{page_html}"
+            file_path = "page_source.html"
+            with open(file_path, "w", encoding="utf-8") as f:
+                f.write(page_html)
 
         if dw_check_btn is None:
             succeed = False
