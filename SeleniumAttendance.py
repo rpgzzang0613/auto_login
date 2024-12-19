@@ -17,7 +17,7 @@ class SeleniumAttendance:
     def __init__(self):
         options = Options()
         options.add_argument("--start-maximized")
-        # options.add_argument("--headless=new")
+        options.add_argument("--headless=new")
         options.add_experimental_option('excludeSwitches', ['enable-logging'])
         # options.add_experimental_option("detach", True)
         # options.add_argument("--disable-blink-features=AutomationControlled")
