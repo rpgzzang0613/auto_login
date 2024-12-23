@@ -85,10 +85,9 @@ class SeleniumAttendance:
             dw_check_btn = None
             print("대원샵 출석체크 버튼 찾기 실패 (TimeoutException)", flush=True)
             msg_for_return += "대원샵 출석체크 버튼 찾기 실패 (TimeoutException)\n"
-            today_fmt = datetime.datetime.now().strftime("%y%m%d")
-            page_screenshot = driver_.save_screenshot("page_screenshot_{today_fmt}.png")
+            page_screenshot = driver_.save_screenshot("page_screenshot.png")
             page_html = driver_.page_source
-            file_path = f"page_source_{today_fmt}.html"
+            file_path = f"page_source.html"
             with open(file_path, "w", encoding="utf-8") as f:
                 f.write(page_html)
 
