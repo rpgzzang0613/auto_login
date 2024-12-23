@@ -73,7 +73,7 @@ class SeleniumAttendance:
         msg_for_return += "대원샵 출석체크 페이지 진입\n"
 
         try:
-            dw_check_btn = WebDriverWait(driver_, 180).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".attendance-check-btn")))
+            dw_check_btn = WebDriverWait(driver_, 20).until(EC.presence_of_element_located((By.CSS_SELECTOR, ".attendance-check-btn")))
             dw_check_btn.click()
             print("대원샵 출석체크 버튼 찾아서 클릭", flush=True)
             msg_for_return += "대원샵 출석체크 버튼 찾아서 클릭\n"
