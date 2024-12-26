@@ -1,4 +1,3 @@
-import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
@@ -85,11 +84,17 @@ class SeleniumAttendance:
             dw_check_btn = None
             print("대원샵 출석체크 버튼 찾기 실패 (TimeoutException)", flush=True)
             msg_for_return += "대원샵 출석체크 버튼 찾기 실패 (TimeoutException)\n"
+
+            page_logs = driver_.get_log('browser')
+            with open("page_console_log.txt", "w", encoding="utf-8") as log_file:
+                for log in page_logs:
+                    log_file.write(f"{log['level']} - {log['message']}\n")
+
             page_screenshot = driver_.save_screenshot("page_screenshot.png")
+            
             page_html = driver_.page_source
-            file_path = f"page_source.html"
-            with open(file_path, "w", encoding="utf-8") as f:
-                f.write(page_html)
+            with open("page_source.html", "w", encoding="utf-8") as html_file:
+                html_file.write(page_html)
 
         if dw_check_btn is None:
             succeed = False
